@@ -1,0 +1,22 @@
+CREATE TABLE student(
+	student_no VARCHAR(20) NOT NULL,
+	name VARCHAR(50) NOT NULL,
+	major VARCHAR(50) NOT NULL,
+	PRIMARY KEY (student_no)
+);
+
+CREATE TABLE course(
+	course_code VARCHAR(20) NOT NULL,
+	course_name VARCHAR(100) NOT NULL,
+	student_no VARCHAR(20),
+	PRIMARY KEY(course_code),
+	FOREIGN KEY(student_no) REFERENCES student(student_no)
+);
+
+-- 기존 외래키 삭제
+ALTER TABLE course DROP FOREIGN KEY course_ibfk_1;
+
+-- 자동 삭제(CASCADE) 옵션을 넣어서 다시 설정
+ALTER TABLE course ADD CONSTRAINT course_ibfk_1 
+FOREIGN KEY (student_no) REFERENCES student(student_no) 
+ON DELETE CASCADE;
